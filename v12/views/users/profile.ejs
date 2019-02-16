@@ -1,0 +1,62 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail-circle">
+                <img  src="<%= user.avatar%>" alt="User Profile Image">
+            </div>
+            <h1 style="text-align: center;">
+                <i class="glyphicon glyphicon-user"></i> <%= user.firstName + " " + user.lastName%>
+            </h1>
+            <hr>
+            <div class="caption">
+                    <a href="mailto:<%= user.email %>"><%= user.email %></a>
+            </div>
+            <hr>
+            <div class="caption">
+                <p>
+                    Bacon ipsum dolor amet drumstick swine ham, tri-tip sirloin andouille shoulder bresaola jowl beef spare ribs jerky. Chuck short loin biltong, meatloaf ham meatball sirloin. Andouille brisket pork bacon. Prosciutto rump jerky jowl capicola short loin filet mignon pancetta. Flank capicola andouille shoulder. Tail sirloin strip steak, cupim ribeye shoulder bacon shankle alcatra. Landjaeger turducken kevin frankfurter pork belly spare ribs.
+    
+                    Cow brisket flank, burgdoggen strip steak tail pastrami. Rump pork belly brisket corned beef tenderloin meatloaf picanha pig, jerky flank landjaeger swine buffalo prosciutto. Biltong hamburger shoulder cow shank. Sausage beef ribs salami short loin, alcatra landjaeger flank fatback ham.
+                </p>
+            </div>
+            <div>
+                <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <a href="/users/<%= currentUser.id%>/edit" class="btn btn-warning btn-xs">Edit</a>
+                <% }%>
+                <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                    <form class="delete-form" action="/users/deleteRequest" method="POST">
+                        <button class="btn btn-danger btn-xs">Delete</button>
+                    </form>
+                <% }%>
+                <% if(currentUser && currentUser.isAdmin){ %>
+                    <form class="delete-form" action="/users/<%=user.id%>/?_method=DELETE" method="POST">
+                        <button class="btn btn-danger btn-xs">Delete</button>
+                    </form>
+                <% }%>
+            </div>
+            
+        </div>
+        <div class="col-md-8">
+            <ul id="user-posts">
+                <% campgrounds.forEach((campground)=> {%>
+                    <li>
+                        <div class="thumbnail">
+                            <img class="img-responsive" src="<%= campground.image%>">
+                            <div class="caption">
+                                <h3><a href="<%=campground.id%>"><%= campground.name%></a></h3>
+                            </div>
+                        </div>
+                    </li>
+                <% })%>
+            </ul>
+            <hr>
+            <div>
+                <a href="/campgrounds">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
